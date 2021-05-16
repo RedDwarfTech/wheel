@@ -1,8 +1,8 @@
 name: wheel
 description: A new Flutter project.
 version: 0.0.1
-author:
-homepage:
+author: jiangtingqiang@gmail.com
+homepage: https://github.com/jiangxiaoqiang/wheel
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
