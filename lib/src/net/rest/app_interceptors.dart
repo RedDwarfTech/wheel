@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
-import 'package:wheel/src/log/app_log_handler.dart';
+import 'package:wheel/log/app_log_handler.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/rest_clinet.dart';
 import 'package:wheel/src/util/navigation_service.dart';

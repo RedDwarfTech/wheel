@@ -10,10 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
-<<<<<<< HEAD
-=======
     <orderEntry type="library" name="Dart Packages" level="project" />
     <orderEntry type="library" name="Flutter Plugins" level="project" />
->>>>>>> f3efd766e2b791be7d969fd89a77259e1c60f20e
   </component>
 </module>

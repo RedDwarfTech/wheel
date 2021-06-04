@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-4.1.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.2.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.0.4" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.1" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_ios-0.1.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_android-0.1.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-1.0.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.2.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.0.5" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-1.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-4.1.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_android-0.1.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_ios-0.1.0+1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
