@@ -1,7 +1,6 @@
 name: wheel
 description: A new Flutter project.
 version: 0.0.1
-author: jiangtingqiang@gmail.com
 homepage: https://github.com/jiangxiaoqiang/wheel
 
 environment:
