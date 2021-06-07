@@ -1,10 +1,13 @@
 # This is a generated file; do not edit or check into version control.
-device_info=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2/
-firebase_core=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.2.1/
-firebase_core_web=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0/
-firebase_crashlytics=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.0.5/
-flutter_secure_storage=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-4.1.0/
-in_app_purchase=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-1.0.0/
-in_app_purchase_android=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_android-0.1.1/
-in_app_purchase_ios=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_ios-0.1.0+1/
-path_provider=/Users/dolphin/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.1/
+device_info=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2/
+firebase_core=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.2.1/
+firebase_core_web=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0/
+firebase_crashlytics=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.0.5/
+flutter_secure_storage=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-4.1.0/
+in_app_purchase=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-1.0.0/
+in_app_purchase_android=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_android-0.1.1/
+in_app_purchase_ios=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/in_app_purchase_ios-0.1.0+1/
+path_provider=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.2/
+path_provider_linux=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.0.0/
+path_provider_macos=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.0/
+path_provider_windows=/home/dolphin/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.1/

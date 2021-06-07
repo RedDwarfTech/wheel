@@ -3,6 +3,7 @@ import 'package:device_info/device_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'dart:async';
 import 'package:timeago/timeago.dart' as timeago;
 import 'dart:io';
@@ -17,6 +18,7 @@ import 'history.dart';
 class CommonUtils{
 
   static Future<void> initialApp() async {
+    await GlobalConfiguration().loadFromAsset("app_settings");
     GlobalConfig.init(ConfigType.PRO);
     WidgetsFlutterBinding.ensureInitialized();
     // Initialize Firebase, collection app crash report
