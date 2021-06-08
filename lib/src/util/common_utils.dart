@@ -17,15 +17,15 @@ import 'history.dart';
 
 class CommonUtils{
 
-  static Future<void> initialApp() async {
-    await GlobalConfiguration().loadFromAsset("app_settings");
+  static void initialApp() {
+    GlobalConfiguration().loadFromAsset("app_settings");
     GlobalConfig.init(ConfigType.PRO);
     WidgetsFlutterBinding.ensureInitialized();
     // Initialize Firebase, collection app crash report
     // https://firebase.flutter.dev/docs/crashlytics/usage/
-    await Firebase.initializeApp();
+    Firebase.initializeApp();
     timeago.setLocaleMessages('en', CustomEn());
-    await HistoryManager.init();
+    HistoryManager.init();
 
     // in app purchase initial
     if (defaultTargetPlatform == TargetPlatform.android) {
