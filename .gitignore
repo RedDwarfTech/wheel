@@ -21,4 +21,5 @@ doc/api/
 *.js.map
 .idea
 wheel.iml
+.flutter-plugins-dependencies
 .idea/libraries/Flutter_Plugins.xml
