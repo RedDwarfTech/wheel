@@ -17,9 +17,8 @@ class RestClient {
   }
 
   static Future<Response> postHttp(String path, Object data) async {
-    final url = GlobalConfiguration().get("baseUrl") + path;
     Dio dio = createDio();
-    Response response = await dio.post(url, data: data);
+    Response response = await dio.post(path, data: data);
     return response;
   }
 
