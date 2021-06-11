@@ -5,7 +5,6 @@ bool isLoggedIn = false;
 String baseUrl = "";
 String shareUrl = "";
 String staticResourceUrl = "";
-final storage = new FlutterSecureStorage();
 final pageStorageBucket = PageStorageBucket();
 
 enum ConfigType { DEV, PRO }

@@ -8,6 +8,8 @@ import 'package:wheel/src/net/rest/rest_clinet.dart';
 import 'package:wheel/src/util/common_utils.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 
+import '../../wheel.dart';
+
 
 class AuthResult {
   String message;
@@ -133,10 +135,10 @@ class Auth {
       Map result = response.data["result"];
       String token = result["token"];
       String registerTime = result["registerTime"];
-      await storage.write(key: "username", value: username);
-      await storage.write(key: "password", value: password);
-      await storage.write(key: "token", value: token);
-      await storage.write(key: "registerTime", value: registerTime);
+      await SecureStorageUtil.putString("username", username);
+      await SecureStorageUtil.putString( "password",  password);
+      await SecureStorageUtil.putString( "token",  token);
+      await SecureStorageUtil.putString("registerTime", registerTime);
       return AuthResult(message: "Login success", result: Result.ok);
     } else {
       NavigationService.instance.navigateToReplacement("login");

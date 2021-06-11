@@ -8,6 +8,7 @@ import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/rest_clinet.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 
+import '../../../wheel.dart';
 import '../../config/global_config.dart';
 import 'http_result.dart';
 
@@ -15,7 +16,7 @@ class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.headers.containsKey("token")) {
-      String? token = await storage.read(key: "token");
+      String? token = await SecureStorageUtil.getString("token");
       options.headers["token"] = token;
     }
     handler.next(options);
@@ -38,8 +39,8 @@ class AppInterceptors extends InterceptorsWrapper {
     String statusCode = response.data["statusCode"];
     if (statusCode == loginInvalidCode || statusCode == notLoginCode) {
       Dio dio = RestClient.createDio();
-      String? userName = await storage.read(key: "username");
-      String? password = await storage.read(key: "password");
+      String? userName = await SecureStorageUtil.getString("username");
+      String? password = await SecureStorageUtil.getString("password");
       if (userName != null && password != null) {
         refreshAuthToken(dio, userName, password, response);
       } else {
