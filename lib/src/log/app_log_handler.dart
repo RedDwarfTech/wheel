@@ -1,5 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:wheel/src/net/rest/rest_api_error.dart';
 
@@ -13,7 +14,11 @@ class AppLogHandler {
   }
 
   static Future<void> logErrorStack(String message, StackTrace e) async {
-    FirebaseCrashlytics.instance.log(message+","+e.toString());
+    if(kReleaseMode){
+      FirebaseCrashlytics.instance.log(message+"," + e.toString());
+    } else {
+      logger.e(message, e);
+    }
   }
 
   static Future<void> logFlutterErrorDetails(FlutterErrorDetails details) async {
