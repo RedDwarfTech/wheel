@@ -13,11 +13,11 @@ class AppLogHandler {
     FirebaseCrashlytics.instance.log(message);
   }
 
-  static Future<void> logErrorStack(String message, StackTrace e) async {
+  static Future<void> logErrorStack(String message, Object obj, StackTrace stackTrace) async {
     if(kReleaseMode){
-      FirebaseCrashlytics.instance.log(message+"," + e.toString());
+      FirebaseCrashlytics.instance.log(message+"," + stackTrace.toString());
     } else {
-      logger.e(message, e);
+      logger.e(message,obj, stackTrace);
     }
   }
 
