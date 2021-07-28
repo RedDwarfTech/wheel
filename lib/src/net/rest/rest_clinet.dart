@@ -5,7 +5,7 @@ import 'app_interceptors.dart';
 
 class RestClient {
 
-  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: "https://acientbay-api.poemhub.top"))
+  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfiguration().get("baseUrl")))
       ..interceptors.add(AppInterceptors());
 
   static Dio createDio() {
