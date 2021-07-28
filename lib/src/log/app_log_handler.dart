@@ -14,6 +14,7 @@ class AppLogHandler {
   }
 
   static Future<void> logErrorStack(String message, Object obj, StackTrace stackTrace) async {
+    https://stackoverflow.com/questions/49707028/how-to-check-flutter-application-is-running-in-debug/49707787#49707787
     if(kReleaseMode){
       FirebaseCrashlytics.instance.log(message+"," + stackTrace.toString());
     } else {
