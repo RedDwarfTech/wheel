@@ -14,20 +14,28 @@ class AppLogHandler {
   }
 
   static Future<void> logErrorStack(String message, Object obj, StackTrace stackTrace) async {
-    https://stackoverflow.com/questions/49707028/how-to-check-flutter-application-is-running-in-debug/49707787#49707787
-    if(kReleaseMode){
-      FirebaseCrashlytics.instance.log(message+"," + stackTrace.toString());
+    https: //stackoverflow.com/questions/49707028/how-to-check-flutter-application-is-running-in-debug/49707787#49707787
+    if (kReleaseMode) {
+      FirebaseCrashlytics.instance.log(message + "," + stackTrace.toString());
     } else {
-      logger.e(message,obj, stackTrace);
+      logger.e(message, obj, stackTrace);
     }
   }
 
   static Future<void> logFlutterErrorDetails(FlutterErrorDetails details) async {
-    FirebaseCrashlytics.instance.log(details.toString());
+    if (kReleaseMode) {
+      FirebaseCrashlytics.instance.log(details.toString());
+    } else {
+      logger.e("logFlutterErrorDetails", details);
+    }
   }
 
   static Future<void> logError(RestApiError error, String message) async {
-    FirebaseCrashlytics.instance.log(message);
+    if (kReleaseMode) {
+      FirebaseCrashlytics.instance.log(message);
+    } else {
+      logger.e(message, error);
+    }
   }
 
   static Future<void> logWaring(String message) async {
