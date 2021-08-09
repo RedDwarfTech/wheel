@@ -16,14 +16,10 @@ import 'custom_en.dart';
 import 'history.dart';
 
 class CommonUtils {
-  static void initialApp(ConfigType configType) {
-    if (configType == ConfigType.PRO) {
-      GlobalConfiguration().loadFromAsset("pro_app_settings");
-    }
-    if (configType == ConfigType.DEV) {
-      GlobalConfiguration().loadFromAsset("dev_app_settings");
-    }
-
+  // pay attention that the load config is async
+  // we should wait the file load complete if we want to use the config immediately
+  // otherwise the config will get null
+  static Future<GlobalConfiguration> initialApp(ConfigType configType) {
     GlobalConfig.init(configType);
     WidgetsFlutterBinding.ensureInitialized();
     // Initialize Firebase, collection app crash report
@@ -35,6 +31,13 @@ class CommonUtils {
     // in app purchase initial
     if (defaultTargetPlatform == TargetPlatform.android) {
       InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
+    }
+    if (configType == ConfigType.PRO) {
+      return GlobalConfiguration().loadFromAsset("pro_app_settings");
+    } else if (configType == ConfigType.DEV) {
+      return GlobalConfiguration().loadFromAsset("dev_app_settings");
+    } else {
+      return GlobalConfiguration().loadFromAsset("default_app_settings");
     }
   }
 
