@@ -2,14 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:wheel/src/biz/user/cruise_user.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
-import 'package:wheel/src/config/global_config.dart';
 import 'package:wheel/src/net/rest/http_result.dart';
-import 'package:wheel/src/net/rest/rest_clinet.dart';
-import 'package:wheel/src/util/common_utils.dart';
+import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/util/navigation_service.dart';
-
-import '../../wheel.dart';
-
+import 'package:wheel/wheel.dart' show CommonUtils, RestClient, SecureStorageUtil;
 
 class AuthResult {
   String message;
@@ -28,9 +24,9 @@ class Auth {
   static Future<bool> isLoggedIn() async {
     final storage = new FlutterSecureStorage();
     String? username = await storage.read(key: "username");
-    if(username == null){
+    if (username == null) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -39,21 +35,17 @@ class Auth {
     final storage = new FlutterSecureStorage();
     String? userName = await storage.read(key: "username");
     String? registerTime = await storage.read(key: "registerTime");
-    CruiseUser user = new CruiseUser(phone: userName,registerTime:registerTime );
+    CruiseUser user = new CruiseUser(phone: userName, registerTime: registerTime);
     return user;
   }
 
   static Future<AuthResult> vote({required String itemId}) async {
-    Map body = {
-      "id": itemId
-    };
-    final response = await RestClient.putHttp("/post/article/upvote",body);
+    Map body = {"id": itemId};
+    final response = await RestClient.putHttp("/post/article/upvote", body);
     if (RestClient.respSuccess(response)) {
       return AuthResult(message: "SMS send success", result: Result.ok);
     } else {
-      return AuthResult(
-          message: "SMS send failed. Did you mistype your credentials?",
-          result: Result.error);
+      return AuthResult(message: "SMS send failed. Did you mistype your credentials?", result: Result.error);
     }
   }
 
@@ -62,22 +54,20 @@ class Auth {
     await storage.delete(key: "username");
     await storage.delete(key: "password");
     await storage.delete(key: "registerTime");
+    await storage.delete(key: "accessToken");
+    await storage.delete(key: "freshToken");
     return true;
   }
 
   static Future<AuthResult> sms({required String phone}) async {
-    Map body = {
-      "phone": phone
-    };
-    final response = await RestClient.postHttp("/post/user/sms",body);
+    Map body = {"phone": phone};
+    final response = await RestClient.postHttp("/post/user/sms", body);
     if (RestClient.respSuccess(response)) {
       final storage = new FlutterSecureStorage();
       await storage.write(key: "phone", value: phone);
       return AuthResult(message: "SMS send success", result: Result.ok);
     } else {
-      return AuthResult(
-          message: response.data["msg"],
-          result: Result.error);
+      return AuthResult(message: response.data["msg"], result: Result.error);
     }
   }
 
@@ -87,16 +77,14 @@ class Auth {
       "password": password,
       "goto": 'news',
     };
-    final response = await RestClient.postHttp("/post/user/set/pwd",body);
+    final response = await RestClient.postHttp("/post/user/set/pwd", body);
     if (RestClient.respSuccess(response)) {
       final storage = new FlutterSecureStorage();
       await storage.write(key: "username", value: phone);
       await storage.write(key: "password", value: password);
       return AuthResult(message: "Login success", result: Result.ok);
-    }  else {
-      return AuthResult(
-          message: "Login failed. Did you mistype your credentials?",
-          result: Result.error);
+    } else {
+      return AuthResult(message: "Login failed. Did you mistype your credentials?", result: Result.error);
     }
   }
 
@@ -106,21 +94,66 @@ class Auth {
       "verifyCode": verifyCode,
       "goto": 'news',
     };
-    final response = await RestClient.postHttp("/post/user/verify",body);
+    final response = await RestClient.postHttp("/post/user/verify", body);
     if (RestClient.respSuccess(response)) {
       final storage = new FlutterSecureStorage();
       await storage.write(key: "phone", value: phone);
       await storage.write(key: "verifyCode", value: verifyCode);
       return AuthResult(message: "Login success", result: Result.ok);
     } else {
-      return AuthResult(
-          message: "Login failed. Did you mistype your credentials?",
-          result: Result.error);
+      return AuthResult(message: "Login failed. Did you mistype your credentials?", result: Result.error);
     }
   }
 
-  static Future<AuthResult> login({required String username, required String password, required LoginType loginType}) async {
+  static Future<AuthResult> refreshAccessToken({required String refreshToken}) async {
+    Map body = {
+      "refreshToken": refreshToken,
+    };
+    final response = await RestClient.postHttpNewDio("/post/auth/access_token/refresh", body);
+    String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
+    String statusCode = response.data["resultCode"];
+    if (RestClient.respSuccess(response)) {
+      Map result = response.data["result"];
+      String accessToken = result["accessToken"];
+      await SecureStorageUtil.putString("accessToken", accessToken);
+      SecureStorageUtil.putString("accessToken", accessToken);
+      return AuthResult(message: "ok", result: Result.ok);
+    } else if (refreshExpiredCode == statusCode) {
+      String? username = await SecureStorageUtil.getString("username");
+      String? password = await SecureStorageUtil.getString("password");
+      if (username != null && password != null) {
+        return refreshRefreshToken(phone: username, password: password);
+      } else {
+        return AuthResult(message: "refresh access token failed", result: Result.error);
+      }
+    } else {
+      return AuthResult(message: "refresh access token failed", result: Result.error);
+    }
+  }
+
+  static Future<AuthResult> refreshRefreshToken({required String phone, required String password}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
+    int appId = GlobalConfiguration().get("appId");
+    Map body = {"phone": phone, "password": password, "deviceId": deviceInfo[2], "app": appId};
+    final response = await RestClient.postHttpNewDio("/post/auth/refresh_token/refresh", body);
+    if (RestClient.respSuccess(response)) {
+      Map result = response.data["result"];
+      String refreshToken = result["refreshToken"];
+      String accessToken = result["accessToken"];
+      await SecureStorageUtil.putString("refreshToken", refreshToken);
+      await SecureStorageUtil.putString("accessToken", accessToken);
+      SecureStorageUtil.putString("refreshToken", refreshToken);
+      SecureStorageUtil.putString("accessToken", accessToken);
+      return AuthResult(message: "refresh success", result: Result.ok);
+    } else {
+      return AuthResult(message: "refresh refresh token failed", result: Result.error);
+    }
+  }
+
+  static Future<AuthResult> login(
+      {required String username, required String password, required LoginType loginType}) async {
+    List<String> deviceInfo = await CommonUtils.getDeviceDetails();
+    int appId = GlobalConfiguration().get("appId");
     Map body = {
       "phone": username,
       "password": password,
@@ -128,16 +161,23 @@ class Auth {
       "loginType": loginType.statusCode,
       "deviceId": deviceInfo[2],
       "deviceType": int.parse(deviceInfo[1]),
-      "app": 1
+      "app": appId
     };
-    final response = await RestClient.postHttpNewDio("/post/user/login",body);
+    final response = await RestClient.postHttpNewDio("/post/user/login", body);
     if (RestClient.respSuccess(response)) {
       Map result = response.data["result"];
-      String token = result["token"];
+      String accessToken = result["accessToken"];
+      String refreshToken = result["refreshToken"];
       String registerTime = result["registerTime"];
+      SecureStorageUtil.putString("username", username);
+      SecureStorageUtil.putString("password", password);
+      SecureStorageUtil.putString("accessToken", accessToken);
+      SecureStorageUtil.putString("refreshToken", refreshToken);
+      SecureStorageUtil.putString("registerTime", registerTime);
       await SecureStorageUtil.putString("username", username);
-      await SecureStorageUtil.putString( "password",  password);
-      await SecureStorageUtil.putString( "token",  token);
+      await SecureStorageUtil.putString("password", password);
+      await SecureStorageUtil.putString("accessToken", accessToken);
+      await SecureStorageUtil.putString("refreshToken", refreshToken);
       await SecureStorageUtil.putString("registerTime", registerTime);
       return AuthResult(message: "Login success", result: Result.ok);
     } else {
