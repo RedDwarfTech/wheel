@@ -48,14 +48,12 @@ class Auth {
     }
   }
 
-  static Future<bool> logout() async {
-    final storage = new FlutterSecureStorage();
-    await storage.delete(key: "username");
-    await storage.delete(key: "password");
-    await storage.delete(key: "registerTime");
-    await storage.delete(key: "accessToken");
-    await storage.delete(key: "freshToken");
-    return true;
+  static Future<void> logout() async {
+    await SecureStorageUtil.delString("username");
+    await SecureStorageUtil.delString("password");
+    await SecureStorageUtil.delString("registerTime");
+    await SecureStorageUtil.delString("accessToken");
+    await SecureStorageUtil.delString("freshToken");
   }
 
   static Future<AuthResult> sms({required String phone}) async {

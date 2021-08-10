@@ -14,6 +14,9 @@ class SecureStorageUtil{
     return _preferences.write(key:key, value:value);
   }
 
+  static Future<void> delString(String key) {
+    return _preferences.delete(key:key);
+  }
 }
 
 
