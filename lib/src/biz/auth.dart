@@ -24,9 +24,9 @@ class Auth {
   static Future<bool> isLoggedIn() async {
     String? username = await SecureStorageUtil.getString("username");
     if (username == null) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   }
 
