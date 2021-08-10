@@ -5,3 +5,4 @@ export 'src/util/common_utils.dart';
 export 'src/config/global_config.dart';
 export 'src/util/storage/secure_storage_util.dart';
 export 'src/log/rest_log.dart';
+export 'src/biz/auth.dart';
