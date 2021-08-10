@@ -22,8 +22,7 @@ class Auth {
   static RegExp validationRequired = RegExp(r"Validation required");
 
   static Future<bool> isLoggedIn() async {
-    final storage = new FlutterSecureStorage();
-    String? username = await storage.read(key: "username");
+    String? username = await SecureStorageUtil.getString("username");
     if (username == null) {
       return true;
     } else {
