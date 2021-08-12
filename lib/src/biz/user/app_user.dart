@@ -14,7 +14,7 @@ class AppUser {
   String toJson() => json.encode(toMap());
 
 
-  factory AppUser.fromMap(Map<String, dynamic> json) => CruiseUser(
+  factory AppUser.fromMap(Map<String, dynamic> json) => AppUser(
     phone: json["phone"] == null ? null : json["phone"],
     registerTime: json["registerTime"] == null ? null : json["registerTime"],
   );
