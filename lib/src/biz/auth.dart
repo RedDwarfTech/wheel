@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:wheel/src/biz/user/cruise_user.dart';
+import 'package:wheel/src/biz/user/app_user.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/net/rest/http_result.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
@@ -30,11 +30,11 @@ class Auth {
     }
   }
 
-  static Future<CruiseUser> currentUser() async {
+  static Future<AppUser> currentUser() async {
     final storage = new FlutterSecureStorage();
     String? userName = await storage.read(key: "username");
     String? registerTime = await storage.read(key: "registerTime");
-    CruiseUser user = new CruiseUser(phone: userName, registerTime: registerTime);
+    AppUser user = new AppUser(phone: userName, registerTime: registerTime);
     return user;
   }
 
