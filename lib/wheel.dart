@@ -7,3 +7,4 @@ export 'src/util/storage/secure_storage_util.dart';
 export 'src/log/rest_log.dart';
 export 'src/biz/auth.dart';
 export 'src/biz/user/login_type.dart';
+export 'src/biz/user/app_user.dart';
