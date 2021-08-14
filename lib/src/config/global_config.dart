@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-bool isLoggedIn = false;
-String baseUrl = "";
-String shareUrl = "";
-String staticResourceUrl = "";
-final pageStorageBucket = PageStorageBucket();
-
 enum ConfigType { DEV, PRO }
-
 class GlobalConfig {
 
+  final String baseUrl;
+  final String shareUrl;
+  final String staticResourceUrl;
 
   static init(ConfigType configType) {
     switch (configType) {
@@ -20,9 +16,9 @@ class GlobalConfig {
         staticResourceUrl = "https://beta-static.poemhub.top";
         break;
       case ConfigType.PRO:
-        baseUrl = "https://api.poemhub.top";
-        shareUrl = "https://share.poemhub.top";
-        staticResourceUrl = "https://static.poemhub.top";
+        baseUrl = GlobalConfiguration().get("baseUrl");
+        shareUrl = GlobalConfiguration().get("shareUrl");
+        staticResourceUrl = GlobalConfiguration().get("staticUrl");
         break;
     }
   }
