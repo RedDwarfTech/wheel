@@ -9,6 +9,18 @@ class GlobalConfig {
   String shareUrl = GlobalConfiguration().get("shareUrl");
   String staticResourceUrl = GlobalConfiguration().get("staticUrl");
 
+  static getBaseUrl() {
+    return GlobalConfiguration().get("baseUrl");
+  }
+
+  static getShareUrl() {
+    return GlobalConfiguration().get("shareUrl");
+  }
+
+  static getStaticResouceUrl() {
+    return GlobalConfiguration().get("staticUrl");
+  }
+
   static init(ConfigType configType) {
     switch (configType) {
       case ConfigType.DEV:
