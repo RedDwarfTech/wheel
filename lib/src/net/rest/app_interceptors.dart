@@ -53,7 +53,9 @@ class AppInterceptors extends InterceptorsWrapper {
       return handleAccessTokenExpired(response);
     }
     if (statusCode == ResponseStatus.ACCESS_TOKEN_INVALID.statusCode) {
-      NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
+      if (NavigationService.instance.navigationKey.currentState != null) {
+        NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
+      }
     }
     return response;
   }
@@ -100,8 +102,7 @@ class AppInterceptors extends InterceptorsWrapper {
          * jump to the login page
          * it will clear all page except / page
          */
-        NavigationService.instance.navigationKey.currentState!
-            .pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
+        NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
         return response;
       }
     } else {
