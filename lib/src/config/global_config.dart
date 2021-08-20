@@ -21,6 +21,10 @@ class GlobalConfig {
     return GlobalConfiguration().get("staticUrl");
   }
 
+  static getConfig(String key) {
+    return GlobalConfiguration().get(key);
+  }
+
   static init(ConfigType configType) {
     switch (configType) {
       case ConfigType.DEV:
