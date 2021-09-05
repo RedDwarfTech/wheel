@@ -6,7 +6,7 @@ import 'app_interceptors.dart';
 
 class RestClient {
 
-  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.config.get("baseUrl")))
+  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.getBaseUrl()))
       ..interceptors.add(AppInterceptors());
 
   static Dio createDio() {

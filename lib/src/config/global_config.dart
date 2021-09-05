@@ -11,7 +11,8 @@ class GlobalConfig {
   String staticResourceUrl = config.get("staticUrl");
 
   static getBaseUrl() {
-    return config.get("baseUrl");
+    String configBaseUrl = config.get("baseUrl");
+    return configBaseUrl;
   }
 
   static getShareUrl() {
