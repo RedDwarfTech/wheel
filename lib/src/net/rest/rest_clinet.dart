@@ -6,7 +6,7 @@ import 'app_interceptors.dart';
 
 class RestClient {
   static RestClient _instance = RestClient._internal();
-  Dio? dioInstance;
+  static Dio? dioInstance;
 
   factory RestClient() => _instance;
 
@@ -23,7 +23,7 @@ class RestClient {
     // and the interceptor should add for one
     // should not be added every time, it may cause multiple duplicate interceptor
     // this may cause a massive flood http request(important)
-    return RestClient._instance.dioInstance!;
+    return dioInstance!;
   }
 
   static Future<Response> postHttp(String path, Object data) async {
