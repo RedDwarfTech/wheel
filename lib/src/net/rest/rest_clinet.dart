@@ -5,16 +5,25 @@ import '../../../wheel.dart';
 import 'app_interceptors.dart';
 
 class RestClient {
+  static RestClient _instance = RestClient._internal();
+  Dio? dioInstance;
 
-  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.getBaseUrl()))
-      ..interceptors.add(AppInterceptors());
+  factory RestClient() => _instance;
+
+  ///通用全局单例，第一次使用时初始化
+  RestClient._internal() {
+    if (null == dioInstance) {
+      dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.getBaseUrl()))
+        ..interceptors.add(AppInterceptors());
+    }
+  }
 
   static Dio createDio() {
     // pay attention the dio instance should be single
     // and the interceptor should add for one
     // should not be added every time, it may cause multiple duplicate interceptor
     // this may cause a massive flood http request(important)
-    return dioInstance;
+    return RestClient._instance.dioInstance!;
   }
 
   static Future<Response> postHttp(String path, Object data) async {
