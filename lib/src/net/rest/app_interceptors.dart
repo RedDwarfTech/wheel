@@ -15,7 +15,7 @@ class AppInterceptors extends InterceptorsWrapper {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.headers.containsKey("accessToken")) {
       String? accessToken = await SecureStorageUtil.getString("accessToken");
-      options.headers["accessToken"] = accessToken;
+      options.headers["accessToken"] = accessToken??"";
     }
     handler.next(options);
   }
