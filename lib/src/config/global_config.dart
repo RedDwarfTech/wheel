@@ -5,24 +5,25 @@ enum ConfigType { DEV, PRO }
 class GlobalConfig {
   GlobalConfig(this.baseUrl, this.shareUrl, this.staticResourceUrl);
 
-  String baseUrl = GlobalConfiguration().get("baseUrl");
-  String shareUrl = GlobalConfiguration().get("shareUrl");
-  String staticResourceUrl = GlobalConfiguration().get("staticUrl");
+  static GlobalConfiguration config = GlobalConfiguration();
+  String baseUrl = config.get("baseUrl");
+  String shareUrl = config.get("shareUrl");
+  String staticResourceUrl = config.get("staticUrl");
 
   static getBaseUrl() {
-    return GlobalConfiguration().get("baseUrl");
+    return config.get("baseUrl");
   }
 
   static getShareUrl() {
-    return GlobalConfiguration().get("shareUrl");
+    return config.get("shareUrl");
   }
 
-  static getStaticResouceUrl() {
-    return GlobalConfiguration().get("staticUrl");
+  static getStaticResourceUrl() {
+    return config.get("staticUrl");
   }
 
   static getConfig(String key) {
-    return GlobalConfiguration().get(key);
+    return config.get(key);
   }
 
   static init(ConfigType configType) {
