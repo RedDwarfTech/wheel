@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:global_configuration/global_configuration.dart';
 
+import '../../../wheel.dart';
 import 'app_interceptors.dart';
 
 class RestClient {
 
-  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfiguration().get("baseUrl")))
+  static Dio dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.config.get("baseUrl")))
       ..interceptors.add(AppInterceptors());
 
   static Dio createDio() {
