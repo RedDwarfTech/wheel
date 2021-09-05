@@ -23,6 +23,10 @@ class RestClient {
     // and the interceptor should add for one
     // should not be added every time, it may cause multiple duplicate interceptor
     // this may cause a massive flood http request(important)
+    if (null == dioInstance) {
+      dioInstance = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 30000, baseUrl: GlobalConfig.getBaseUrl()))
+        ..interceptors.add(AppInterceptors());
+    }
     return dioInstance!;
   }
 
