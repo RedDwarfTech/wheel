@@ -5,7 +5,7 @@ enum ConfigType { DEV, PRO }
 class GlobalConfig {
   GlobalConfig(this.baseUrl, this.shareUrl, this.staticResourceUrl);
 
-  static GlobalConfiguration config = GlobalConfiguration();
+  static final GlobalConfiguration config = GlobalConfiguration();
   String baseUrl = config.get("baseUrl");
   String shareUrl = config.get("shareUrl");
   String staticResourceUrl = config.get("staticUrl");
