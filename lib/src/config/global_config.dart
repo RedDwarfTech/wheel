@@ -3,28 +3,31 @@ import 'package:global_configuration/global_configuration.dart';
 enum ConfigType { DEV, PRO }
 
 class GlobalConfig {
-  GlobalConfig(this.baseUrl, this.shareUrl, this.staticResourceUrl);
+  static Map config = Map<String, String>();
 
-  static final GlobalConfiguration config = GlobalConfiguration();
-  String baseUrl = config.get("baseUrl");
-  String shareUrl = config.get("shareUrl");
-  String staticResourceUrl = config.get("staticUrl");
+  GlobalConfig() {
+    var globalConfig = GlobalConfiguration();
+    if (globalConfig.appConfig.isNotEmpty) {
+      // initialization...
+      config = Map.unmodifiable(GlobalConfiguration().appConfig);
+    }
+  }
 
   static getBaseUrl() {
-    String configBaseUrl = config.get("baseUrl");
+    String configBaseUrl = config["baseUrl"];
     return configBaseUrl;
   }
 
   static getShareUrl() {
-    return config.get("shareUrl");
+    return config["shareUrl"];
   }
 
   static getStaticResourceUrl() {
-    return config.get("staticUrl");
+    return config["staticUrl"];
   }
 
   static getConfig(String key) {
-    return config.get(key);
+    return config[key];
   }
 
   static init(ConfigType configType) {
