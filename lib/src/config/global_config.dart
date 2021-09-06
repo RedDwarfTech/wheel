@@ -8,7 +8,6 @@ class GlobalConfig {
   GlobalConfig() {
     var globalConfig = GlobalConfiguration();
     if (globalConfig.appConfig.isNotEmpty) {
-      // initialization...
       config = Map.unmodifiable(GlobalConfiguration().appConfig);
     }
   }

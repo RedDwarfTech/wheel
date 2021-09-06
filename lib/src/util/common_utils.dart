@@ -20,7 +20,6 @@ class CommonUtils {
   // we should wait the file load complete if we want to use the config immediately
   // otherwise the config will get null
   static Future<GlobalConfiguration> initialApp(ConfigType configType) {
-    GlobalConfig.init(configType);
     WidgetsFlutterBinding.ensureInitialized();
     // Initialize Firebase, collection app crash report
     // https://firebase.flutter.dev/docs/crashlytics/usage/
