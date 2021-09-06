@@ -6,10 +6,7 @@ class GlobalConfig {
   static Map config = Map<String, String>();
 
   GlobalConfig() {
-    var globalConfig = GlobalConfiguration();
-    if (globalConfig.appConfig.isNotEmpty) {
-      config = Map.unmodifiable(GlobalConfiguration().appConfig);
-    }
+
   }
 
   static getBaseUrl() {
@@ -30,6 +27,10 @@ class GlobalConfig {
   }
 
   static init(ConfigType configType) {
+    var globalConfig = GlobalConfiguration();
+    if (globalConfig.appConfig.isNotEmpty) {
+      config = Map.unmodifiable(globalConfig.appConfig);
+    }
     switch (configType) {
       case ConfigType.DEV:
         break;
