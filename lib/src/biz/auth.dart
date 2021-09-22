@@ -182,7 +182,7 @@ class Auth {
       "deviceType": int.parse(deviceInfo[1]),
       "app": appId
     };
-    final response = await RestClient.postHttpDomain(appLoginRequest.domain,"/post/user/login", body);
+    final response = await RestClient.postHttpDomain("/post/user/login", body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response,appLoginRequest.username,appLoginRequest.password);
       return AuthResult(message: "Login success", result: Result.ok);
