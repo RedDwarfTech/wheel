@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 
 class AppLoginRequest {
@@ -21,7 +22,7 @@ class AppLoginRequest {
       "password": password,
       "loginType": loginType.index,
       "nickname": nickname,
-      "avatarUrl": avatarUrl
+      "avatarUrl": avatarUrl:CupertinoColors.quaternaryLabel
     };
   }
 }
