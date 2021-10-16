@@ -22,7 +22,7 @@ class AppLoginRequest {
       "password": password,
       "loginType": loginType.index,
       "nickname": nickname,
-      "avatarUrl": avatarUrl:CupertinoColors.quaternaryLabel
+      "avatarUrl": avatarUrl
     };
   }
 }
