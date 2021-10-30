@@ -43,8 +43,8 @@ class RestClient {
     return response;
   }
 
-  static Future<Response> postHttpDomain(String path, Object data) async {
-    final url = GlobalConfiguration().get("authUrl") + path;
+  static Future<Response> postHttpDomain(String domain,String path, Object data) async {
+    final url = domain + path;
     Dio dio = new Dio();
     Response response = await dio.post(url, data: data);
     return response;

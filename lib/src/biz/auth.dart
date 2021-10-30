@@ -161,7 +161,8 @@ class Auth {
       "nickname": appLoginRequest.nickname,
       "avatarUrl": appLoginRequest.avatarUrl
     };
-    final response = await RestClient.postHttpDomain("/post/user/login", body);
+    final String domain = GlobalConfiguration().get("authUrl");
+    final response = await RestClient.postHttpDomain(domain,"/post/user/login", body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response, appLoginRequest.username, appLoginRequest.password);
       return AuthResult(message: "Login success", result: Result.ok);
