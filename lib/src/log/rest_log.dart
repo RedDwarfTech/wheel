@@ -7,8 +7,7 @@ import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 class RestLog {
 
   static Future<void> logger(String restLog) async {
-    RestLogModel restLogModel = RestLogModel();
-    restLogModel.message = restLog;
+    RestLogModel restLogModel = RestLogModel(message: restLog);
       Map jsonMap = restLogModel.toMap();
       try {
         final response = await RestClient.postHttp( "/post/logger/v1/log", jsonMap);
