@@ -29,14 +29,6 @@ class AppLogHandler {
     }
   }
 
-  static Future<void> logErrorMessage(String message) async {
-    if (kReleaseMode) {
-      
-    } else {
-      logger.e(message);
-    }
-  }
-
   static Future<void> logFlutterErrorDetails(FlutterErrorDetails details) async {
     if (kReleaseMode) {
       FirebaseCrashlytics.instance.log(details.toString());
