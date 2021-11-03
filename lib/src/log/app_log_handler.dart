@@ -54,7 +54,7 @@ class AppLogHandler {
   }
 
   static Future<void> restLogger(String restLog) async {
-    RestLogModel restLogModel = RestLogModel();
+    RestLogModel restLogModel = RestLogModel(message: restLog);
     restLogModel.message = restLog;
     Map jsonMap = restLogModel.toMap();
     try {
