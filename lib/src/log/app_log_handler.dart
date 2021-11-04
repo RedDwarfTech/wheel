@@ -19,7 +19,8 @@ class AppLogHandler {
     FirebaseCrashlytics.instance.log(message);
   }
 
-  static Future<void> logErrorStack(String message, Object obj, StackTrace stackTrace) async {
+  static Future<void> logErrorStack(
+      String message, Object obj, StackTrace stackTrace) async {
     https: //stackoverflow.com/questions/49707028/how-to-check-flutter-application-is-running-in-debug/49707787#49707787
     if (kReleaseMode) {
       restLogger(message);
@@ -29,7 +30,8 @@ class AppLogHandler {
     }
   }
 
-  static Future<void> logFlutterErrorDetails(FlutterErrorDetails details) async {
+  static Future<void> logFlutterErrorDetails(
+      FlutterErrorDetails details) async {
     if (kReleaseMode) {
       FirebaseCrashlytics.instance.log(details.toString());
     } else {
@@ -60,21 +62,18 @@ class AppLogHandler {
     try {
       final String domain = GlobalConfiguration().get("logUrl");
       RestClient.postHttpDomain(domain, "/post/logger/v1/log", jsonMap);
-    } on Exception catch (e) {
-
-    }
+    } on Exception catch (e) {}
   }
 
-  static Future<void> restLoggerException(String restLog,StackTrace stackTrace,) async {
+  static Future<void> restLoggerException(
+      String restLog, StackTrace stackTrace, Object obj) async {
     RestLogModel restLogModel = RestLogModel(message: restLog);
     restLogModel.stackTrace = stackTrace.toString();
-    restLogModel.error =
+    restLogModel.error = obj.toString();
     Map jsonMap = restLogModel.toMap();
     try {
       final String domain = GlobalConfiguration().get("logUrl");
       RestClient.postHttpDomain(domain, "/post/logger/v1/log", jsonMap);
-    } on Exception catch (e) {
-
-    }
+    } on Exception catch (e) {}
   }
 }
