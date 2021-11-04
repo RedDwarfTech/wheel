@@ -65,9 +65,10 @@ class AppLogHandler {
     }
   }
 
-  static Future<void> restLoggerException(String restLog,StackTrace stackTrace) async {
+  static Future<void> restLoggerException(String restLog,StackTrace stackTrace,) async {
     RestLogModel restLogModel = RestLogModel(message: restLog);
     restLogModel.stackTrace = stackTrace.toString();
+    restLogModel.error =
     Map jsonMap = restLogModel.toMap();
     try {
       final String domain = GlobalConfiguration().get("logUrl");
