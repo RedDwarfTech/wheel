@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/util/navigation_service.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
 
 import 'http_result.dart';
@@ -16,6 +18,9 @@ class AppInterceptors extends InterceptorsWrapper {
     if (!options.headers.containsKey("accessToken")) {
       String? accessToken = await SecureStorageUtil.getString("accessToken");
       options.headers["accessToken"] = accessToken??"";
+    }
+    if(!options.headers.containsKey("X-Request-ID")){
+      options.headers["X-Request-ID"] = Uuid().v4();
     }
     handler.next(options);
   }
