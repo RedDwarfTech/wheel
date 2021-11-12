@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +20,6 @@ class CommonUtils {
   // otherwise the config will get null
   static Future<GlobalConfiguration> initialApp(ConfigType configType) {
     WidgetsFlutterBinding.ensureInitialized();
-    // Initialize Firebase, collection app crash report
-    // https://firebase.flutter.dev/docs/crashlytics/usage/
-    Firebase.initializeApp();
     timeago.setLocaleMessages('en', CustomEn());
     HistoryManager.init();
 

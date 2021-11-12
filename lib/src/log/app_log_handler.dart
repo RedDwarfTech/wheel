@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -16,7 +13,6 @@ class AppLogHandler {
   );
 
   static Future<void> logErrorException(String message, Object e) async {
-    FirebaseCrashlytics.instance.log(message);
   }
 
   static Future<void> logErrorStack(
@@ -24,7 +20,6 @@ class AppLogHandler {
     https: //stackoverflow.com/questions/49707028/how-to-check-flutter-application-is-running-in-debug/49707787#49707787
     if (kReleaseMode) {
       restLogger(message);
-      FirebaseCrashlytics.instance.log(message + "," + stackTrace.toString());
     } else {
       logger.e(message, obj, stackTrace);
     }
@@ -33,7 +28,6 @@ class AppLogHandler {
   static Future<void> logFlutterErrorDetails(
       FlutterErrorDetails details) async {
     if (kReleaseMode) {
-      FirebaseCrashlytics.instance.log(details.toString());
     } else {
       logger.e("logFlutterErrorDetails", details);
     }
@@ -41,7 +35,6 @@ class AppLogHandler {
 
   static Future<void> logError(RestApiError error, String message) async {
     if (kReleaseMode) {
-      FirebaseCrashlytics.instance.log(message);
     } else {
       logger.e(message, error);
     }

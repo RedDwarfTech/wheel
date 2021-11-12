@@ -13,8 +13,6 @@ dependencies:
   dio: 4.0.0
   global_configuration: 2.0.0-nullsafety.1
   flutter_secure_storage: 4.1.0
-  firebase_core: "^1.1.0"
-  firebase_crashlytics: "^2.0.2"
   logger: 1.0.0
   hive: 2.0.4
   hive_flutter: 1.0.0
