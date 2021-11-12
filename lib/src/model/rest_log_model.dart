@@ -1,7 +1,9 @@
 class RestLogModel {
-  RestLogModel({required this.message,this.stackTrace,this.error});
+  RestLogModel({required this.message,this.requestId,this.stackTrace,this.error});
 
   String message;
+
+  String? requestId;
 
   String? stackTrace;
 

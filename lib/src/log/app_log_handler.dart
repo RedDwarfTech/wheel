@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -13,6 +16,24 @@ class AppLogHandler {
   );
 
   static Future<void> logErrorException(String message, Object e) async {
+    RestLogModel restLogModel = RestLogModel(message: message);
+    restLogModel.error = e.toString();
+    Map jsonMap = restLogModel.toMap();
+    try {
+      final String domain = GlobalConfiguration().get("logUrl");
+      RestClient.postHttpDomain(domain, "/post/logger/v1/log", jsonMap);
+    } on Exception catch (e) {}
+  }
+
+  static Future<void> logDioError(DioError err, ErrorInterceptorHandler handler) async {
+    RestLogModel restLogModel = RestLogModel(message: "dio http request error");
+    restLogModel.error = err.toString();
+    restLogModel.requestId = err.requestOptions.headers["X-Request-ID"];
+    Map jsonMap = restLogModel.toMap();
+    try {
+      final String domain = GlobalConfiguration().get("logUrl");
+      RestClient.postHttpDomain(domain, "/post/logger/v1/log", jsonMap);
+    } on Exception catch (e) {}
   }
 
   static Future<void> logErrorStack(

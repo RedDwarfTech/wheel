@@ -148,6 +148,7 @@ class AppInterceptors extends InterceptorsWrapper {
 
   @override
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
+    AppLogHandler.logDioError(err, handler);
     return super.onError(err, handler);
   }
 }
