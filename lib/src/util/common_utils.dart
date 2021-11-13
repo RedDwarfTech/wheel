@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,16 +47,28 @@ class CommonUtils {
     try {
       if (Platform.isAndroid) {
         var build = await deviceInfoPlugin.androidInfo;
-        deviceName = build.model;
+        deviceName = build.device!;
         deviceVersion = build.version.toString();
-        identifier = build.androidId; //UUID for Android
+        identifier = build.id!; //UUID for Android
         deviceType = "2";
       } else if (Platform.isIOS) {
         var data = await deviceInfoPlugin.iosInfo;
-        deviceName = data.name;
-        deviceVersion = data.systemVersion;
-        identifier = data.identifierForVendor; //UUID for iOS
+        deviceName = data.name!;
+        deviceVersion = data.systemVersion!;
+        identifier = data.identifierForVendor!; //UUID for iOS
         deviceType = "1";
+      } else if (Platform.isLinux) {
+        var data = await deviceInfoPlugin.linuxInfo;
+        deviceName = data.name!;
+        deviceVersion = data.version!;
+        identifier = data.id!;
+        deviceType = "6";
+      } else if (Platform.isMacOS) {
+        var data = await deviceInfoPlugin.macOsInfo;
+        deviceName = data.model!;
+        deviceVersion = data.kernelVersion!;
+        identifier = data.systemGUID!;
+        deviceType = "9";
       }
     } on PlatformException {
       print('Failed to get platform version');
