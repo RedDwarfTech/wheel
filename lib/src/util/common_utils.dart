@@ -65,15 +65,12 @@ class CommonUtils {
   }
 
   /// Read emoji flags from assets.
-  Future<List<RegionFlag>> _getRegions() async {
-    final jsonStr =
-    await rootBundle.loadString("assets/emoji-flags.json", cache: false);
+  static Future<List<RegionFlag>> getRegions() async {
+    final jsonStr = await rootBundle.loadString("assets/emoji-flags.json", cache: false);
     final flags = json.decode(jsonStr) as List;
-    final result =
-    flags.cast<Map>().map((map) => RegionFlag.fromMap(map)).where((flag) {
+    final result = flags.cast<Map>().map((map) => RegionFlag.fromMap(map)).where((flag) {
       return flag.dialCode != null && flag.dialCode!.trim().isNotEmpty;
     }).toList();
     return result;
   }
-
 }
