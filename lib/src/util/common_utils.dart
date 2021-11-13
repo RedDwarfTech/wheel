@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
@@ -10,6 +11,7 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:wheel/src/config/global_config.dart';
+import 'package:wheel/src/model/common/region_flag.dart';
 
 import 'custom_en.dart';
 import 'history.dart';
@@ -61,4 +63,17 @@ class CommonUtils {
     }
     return [deviceName, deviceType, identifier];
   }
+
+  /// Read emoji flags from assets.
+  Future<List<RegionFlag>> _getRegions() async {
+    final jsonStr =
+    await rootBundle.loadString("assets/emoji-flags.json", cache: false);
+    final flags = json.decode(jsonStr) as List;
+    final result =
+    flags.cast<Map>().map((map) => RegionFlag.fromMap(map)).where((flag) {
+      return flag.dialCode != null && flag.dialCode!.trim().isNotEmpty;
+    }).toList();
+    return result;
+  }
+
 }
