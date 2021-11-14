@@ -71,10 +71,12 @@ class Auth {
   }
 
   static Future<AuthResult> setPwd({required String phone, required String password}) async {
+    int appId = GlobalConfiguration().get("appId");
     Map body = {
       "phone": phone,
       "password": password,
       "goto": 'news',
+      "app": appId
     };
     final response = await RestClient.postHttp("/post/user/set/pwd", body);
     if (RestClient.respSuccess(response)) {

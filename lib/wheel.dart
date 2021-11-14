@@ -9,3 +9,4 @@ export 'src/biz/auth.dart';
 export 'src/biz/user/login_type.dart';
 export 'src/biz/user/app_user.dart';
 export 'src/model/user/app_login_request.dart';
+export 'src/model/common/region_flag.dart';
