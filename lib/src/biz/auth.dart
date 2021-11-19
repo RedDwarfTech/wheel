@@ -150,7 +150,6 @@ class Auth {
 
   static Future<AuthResult> loginReq({required AppLoginRequest appLoginRequest}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
-    int appId = GlobalConfiguration().get("appId");
     Map body = {
       "phone": appLoginRequest.username,
       "password": appLoginRequest.password,
@@ -158,7 +157,7 @@ class Auth {
       "loginType": appLoginRequest.loginType.statusCode,
       "deviceId": deviceInfo[2],
       "deviceType": int.parse(deviceInfo[1]),
-      "app": appId,
+      "app": GlobalConfig.getConfig("appId"),
       "nickname": appLoginRequest.nickname,
       "avatarUrl": appLoginRequest.avatarUrl
     };
