@@ -7,7 +7,7 @@ import 'package:wheel/src/model/user/app_login_request.dart';
 import 'package:wheel/src/net/rest/http_result.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/util/navigation_service.dart';
-import 'package:wheel/wheel.dart' show CommonUtils, RestClient, SecureStorageUtil;
+import 'package:wheel/wheel.dart' show CommonUtils, GlobalConfig, RestClient, SecureStorageUtil;
 
 class AuthResult {
   String message;
@@ -71,12 +71,11 @@ class Auth {
   }
 
   static Future<AuthResult> setPwd({required String phone, required String password}) async {
-    int appId = GlobalConfiguration().get("appId");
     Map body = {
       "phone": phone,
       "password": password,
       "goto": 'news',
-      "app": appId
+      "app": GlobalConfig.getConfig("appId")
     };
     final response = await RestClient.postHttp("/post/user/set/pwd", body);
     if (RestClient.respSuccess(response)) {
@@ -151,7 +150,6 @@ class Auth {
 
   static Future<AuthResult> loginReq({required AppLoginRequest appLoginRequest}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
-    int appId = GlobalConfiguration().get("appId");
     Map body = {
       "phone": appLoginRequest.username,
       "password": appLoginRequest.password,
@@ -159,7 +157,7 @@ class Auth {
       "loginType": appLoginRequest.loginType.statusCode,
       "deviceId": deviceInfo[2],
       "deviceType": int.parse(deviceInfo[1]),
-      "app": appId,
+      "app": GlobalConfig.getConfig("appId"),
       "nickname": appLoginRequest.nickname,
       "avatarUrl": appLoginRequest.avatarUrl
     };
