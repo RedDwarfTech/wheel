@@ -109,7 +109,7 @@ class Auth {
     Map body = {
       "refreshToken": refreshToken,
     };
-    final response = await RestClient.postHttpNewDio("/post/auth/access_token/refresh", body);
+    final response = await RestClient.postAuthDio("/post/auth/access_token/refresh", body);
     String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
     String statusCode = response.data["resultCode"];
     if (RestClient.respSuccess(response)) {
@@ -135,7 +135,7 @@ class Auth {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
     int appId = GlobalConfiguration().get("appId");
     Map body = {"phone": phone, "password": password, "deviceId": deviceInfo[2], "app": appId};
-    final response = await RestClient.postHttpNewDio("/post/auth/refresh_token/refresh", body);
+    final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
     if (RestClient.respSuccess(response)) {
       Map result = response.data["result"];
       String refreshToken = result["refreshToken"];
@@ -161,8 +161,7 @@ class Auth {
       "nickname": appLoginRequest.nickname,
       "avatarUrl": appLoginRequest.avatarUrl
     };
-    final String domain = GlobalConfiguration().get("authUrl");
-    final response = await RestClient.postHttpDomain(domain,"/post/user/login", body);
+    final response = await RestClient.postAuthDio("/post/user/login", body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response, appLoginRequest.username, appLoginRequest.password);
       return AuthResult(message: "Login success", result: Result.ok);
@@ -196,7 +195,7 @@ class Auth {
       "deviceType": int.parse(deviceInfo[1]),
       "app": appId
     };
-    final response = await RestClient.postHttpNewDio("/post/user/login", body);
+    final response = await RestClient.postAuthDio("/post/user/login", body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response, username, password);
       return AuthResult(message: "Login success", result: Result.ok);
