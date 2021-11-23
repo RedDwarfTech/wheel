@@ -91,8 +91,8 @@ class AppInterceptors extends InterceptorsWrapper {
        * the refresh time record the refresh request count
        * to avoid a dead loop of refresh token
        */
-      String? tokenRefreshTimes = await SecureStorageUtil.getString("refreshTimes");
-      if (userName != null && password != null && tokenRefreshTimes != null && int.parse(tokenRefreshTimes) < 3) {
+      String? tokenRefreshTimes = await SecureStorageUtil.getString("refreshTimes")??"0";
+      if (userName != null && password != null && int.parse(tokenRefreshTimes) < 3) {
         String newRefreshTimes = (int.parse(tokenRefreshTimes) + 1).toString();
         SecureStorageUtil.putString("refreshTimes", newRefreshTimes);
         Future<Response> res = refreshAuthToken(userName, password, response);
