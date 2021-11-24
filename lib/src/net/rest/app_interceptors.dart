@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/util/navigation_service.dart';
-import 'package:uuid/uuid.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
 
 import 'http_result.dart';
@@ -17,9 +16,9 @@ class AppInterceptors extends InterceptorsWrapper {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.headers.containsKey("x-access-token")) {
       String? accessToken = await SecureStorageUtil.getString("accessToken");
-      options.headers["x-access-token"] = accessToken??"";
+      options.headers["x-access-token"] = accessToken ?? "";
     }
-    if(!options.headers.containsKey("X-Request-ID")){
+    if (!options.headers.containsKey("X-Request-ID")) {
       options.headers["X-Request-ID"] = Uuid().v4();
     }
     handler.next(options);
@@ -91,7 +90,7 @@ class AppInterceptors extends InterceptorsWrapper {
        * the refresh time record the refresh request count
        * to avoid a dead loop of refresh token
        */
-      String? tokenRefreshTimes = await SecureStorageUtil.getString("refreshTimes")??"0";
+      String? tokenRefreshTimes = await SecureStorageUtil.getString("refreshTimes") ?? "0";
       if (userName != null && password != null && int.parse(tokenRefreshTimes) < 3) {
         String newRefreshTimes = (int.parse(tokenRefreshTimes) + 1).toString();
         SecureStorageUtil.putString("refreshTimes", newRefreshTimes);
@@ -107,7 +106,9 @@ class AppInterceptors extends InterceptorsWrapper {
          * jump to the login page
          * it will clear all page except / page
          */
-        NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
+        if (NavigationService.instance.navigationKey.currentState != null) {
+          NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
+        }
         return response;
       }
     } else {
