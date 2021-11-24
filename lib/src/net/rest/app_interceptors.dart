@@ -15,9 +15,9 @@ import 'http_result.dart';
 class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (!options.headers.containsKey("accessToken")) {
+    if (!options.headers.containsKey("x-access-token")) {
       String? accessToken = await SecureStorageUtil.getString("accessToken");
-      options.headers["accessToken"] = accessToken??"";
+      options.headers["x-access-token"] = accessToken??"";
     }
     if(!options.headers.containsKey("X-Request-ID")){
       options.headers["X-Request-ID"] = Uuid().v4();
