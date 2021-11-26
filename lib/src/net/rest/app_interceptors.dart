@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
+import 'package:wheel/src/global/net_const.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
@@ -14,12 +15,12 @@ import 'http_result.dart';
 class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (!options.headers.containsKey("x-access-token")) {
+    if (!options.headers.containsKey(HTTP_ACCESS_TOKEN_HEADER)) {
       String? accessToken = await SecureStorageUtil.getString("accessToken");
-      options.headers["x-access-token"] = accessToken ?? "";
+      options.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken ?? "";
     }
-    if (!options.headers.containsKey("X-Request-ID")) {
-      options.headers["X-Request-ID"] = Uuid().v4();
+    if (!options.headers.containsKey(HTTP_REQUEST_ID_HEADER)) {
+      options.headers[HTTP_REQUEST_ID_HEADER] = Uuid().v4();
     }
     handler.next(options);
   }
@@ -119,7 +120,7 @@ class AppInterceptors extends InterceptorsWrapper {
   Future<Response> _retryResponse(Response response, Dio dio) async {
     // replace the new token
     String? accessToken = await SecureStorageUtil.getString("accessToken");
-    response.requestOptions.headers["accessToken"] = accessToken;
+    response.requestOptions.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken;
     final options = new Options(
       method: response.requestOptions.method,
       headers: response.requestOptions.headers,
