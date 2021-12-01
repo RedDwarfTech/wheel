@@ -33,9 +33,8 @@ class Auth {
   }
 
   static Future<AppUser> currentUser() async {
-    final storage = new FlutterSecureStorage();
-    String? userName = await storage.read(key: "username");
-    String? registerTime = await storage.read(key: "registerTime");
+    String? userName = await SecureStorageUtil.getString("username");
+    String? registerTime = await SecureStorageUtil.getString("registerTime");
     AppUser user = new AppUser(phone: userName, registerTime: registerTime);
     return user;
   }
