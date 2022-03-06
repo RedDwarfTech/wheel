@@ -41,7 +41,7 @@ class AppInterceptors extends InterceptorsWrapper {
       if (phone == null || password == null) {
         return response;
       }
-      AuthResult result = await Auth.refreshRefreshToken(phone: phone, password: password);
+      AuthResult result = await Auth.refreshRefreshToken(refreshToken: '');
       if (result.result == Result.ok) {
         Dio dio = RestClient.createDio();
         return _retryResponse(response, dio);
