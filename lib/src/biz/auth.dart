@@ -105,8 +105,13 @@ class Auth {
   }
 
   static Future<AuthResult> refreshAccessToken({required String refreshToken}) async {
+    /**
+     * the snake case parameter was according the oauth 2.0 specification
+     * https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/
+      */
     Map body = {
-      "refreshToken": refreshToken,
+      "grant_type": "refresh_token",
+      "refresh_token": refreshToken,
     };
     final response = await RestClient.postAuthDio("/post/auth/access_token/refresh", body);
     String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
@@ -121,7 +126,7 @@ class Auth {
       String? username = await SecureStorageUtil.getString("username");
       String? password = await SecureStorageUtil.getString("password");
       if (username != null && password != null) {
-        return refreshRefreshToken(phone: username, password: password);
+        return refreshRefreshToken(refreshToken: refreshToken);
       } else {
         return AuthResult(message: "refresh access token failed", result: Result.error);
       }
@@ -130,10 +135,11 @@ class Auth {
     }
   }
 
-  static Future<AuthResult> refreshRefreshToken({required String phone, required String password}) async {
-    List<String> deviceInfo = await CommonUtils.getDeviceDetails();
-    int appId = GlobalConfiguration().get("appId");
-    Map body = {"phone": phone, "password": password, "deviceId": deviceInfo[2], "app": appId};
+  static Future<AuthResult> refreshRefreshToken({required String refreshToken}) async {
+    Map body = {
+      "grant_type": "refresh_token",
+      "refresh_token": refreshToken,
+    };
     final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
     if (RestClient.respSuccess(response)) {
       Map result = response.data["result"];
