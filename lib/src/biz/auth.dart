@@ -126,7 +126,7 @@ class Auth {
       String? username = await SecureStorageUtil.getString("username");
       String? password = await SecureStorageUtil.getString("password");
       if (username != null && password != null) {
-        return refreshRefreshToken(refreshToken: refreshToken);
+        return refreshRefreshToken(refreshToken: refreshToken,phone: username,password: password);
       } else {
         return AuthResult(message: "refresh access token failed", result: Result.error);
       }
@@ -135,10 +135,17 @@ class Auth {
     }
   }
 
-  static Future<AuthResult> refreshRefreshToken({required String refreshToken}) async {
+  static Future<AuthResult> refreshRefreshToken({
+    required String refreshToken,
+    required String phone,
+    required String password
+  }) async {
+
     Map body = {
       "grant_type": "refresh_token",
       "refresh_token": refreshToken,
+      "phone": phone,
+      "password": password
     };
     final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
     if (RestClient.respSuccess(response)) {

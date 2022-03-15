@@ -38,10 +38,11 @@ class AppInterceptors extends InterceptorsWrapper {
     if (accessExpiredCode == statusCode) {
       String? phone = await SecureStorageUtil.getString("username");
       String? password = await SecureStorageUtil.getString("password");
-      if (phone == null || password == null) {
+      String? refreshToken = await SecureStorageUtil.getString("refreshToken");
+      if (phone == null || password == null|| refreshToken == null) {
         return response;
       }
-      AuthResult result = await Auth.refreshRefreshToken(refreshToken: '');
+      AuthResult result = await Auth.refreshRefreshToken(refreshToken: refreshToken,phone: phone,password: password);
       if (result.result == Result.ok) {
         Dio dio = RestClient.createDio();
         return _retryResponse(response, dio);
