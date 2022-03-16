@@ -169,7 +169,7 @@ class Auth {
       "loginType": appLoginRequest.loginType.statusCode,
       "deviceId": deviceInfo[2],
       "deviceType": int.parse(deviceInfo[1]),
-      "app": GlobalConfig.getConfig("appId"),
+      "appId": GlobalConfig.getConfig("appId"),
       "nickname": appLoginRequest.nickname,
       "avatarUrl": appLoginRequest.avatarUrl
     };
