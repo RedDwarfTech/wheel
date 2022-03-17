@@ -204,6 +204,7 @@ class Auth {
       "goto": 'news',
       "loginType": loginType.statusCode,
       "deviceId": deviceInfo[2],
+      "deviceName": deviceInfo[0],
       "deviceType": int.parse(deviceInfo[1]),
       "app": appId
     };
