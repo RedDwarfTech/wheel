@@ -59,21 +59,21 @@ class CommonUtils {
         deviceType = "1";
       } else if (Platform.isLinux) {
         var data = await deviceInfoPlugin.linuxInfo;
-        deviceName = data.name!;
+        deviceName = data.name;
         deviceVersion = data.version!;
-        identifier = data.id!;
+        identifier = data.id;
         deviceType = "6";
       } else if (Platform.isMacOS) {
         var data = await deviceInfoPlugin.macOsInfo;
-        deviceName = data.model!;
-        deviceVersion = data.kernelVersion!;
+        deviceName = data.model;
+        deviceVersion = data.kernelVersion;
         identifier = data.systemGUID!;
         deviceType = "9";
       }
     } on PlatformException {
       print('Failed to get platform version');
     }
-    return [deviceName, deviceType, identifier];
+    return [deviceName, deviceType, identifier, deviceVersion];
   }
 
   /// Read emoji flags from assets.
