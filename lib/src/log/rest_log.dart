@@ -13,7 +13,7 @@ class RestLog {
         final response = await RestClient.postHttp( "/post/logger/v1/log", jsonMap);
         if (response.statusCode == 200 &&
             response.data["statusCode"] == "200") {
-          Map channelResult = response.data["result.dart"];
+          Map channelResult = response.data["result"];
           if (channelResult != null) {
             // Pay attention: channelResult would be null sometimes
             String jsonContent = JsonEncoder().convert(channelResult);

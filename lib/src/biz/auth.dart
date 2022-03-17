@@ -117,7 +117,7 @@ class Auth {
     String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
     String statusCode = response.data["resultCode"];
     if (RestClient.respSuccess(response)) {
-      Map result = response.data["result.dart"];
+      Map result = response.data["result"];
       String accessToken = result["accessToken"];
       SecureStorageUtil.putString("accessToken", accessToken);
       SecureStorageUtil.putString("accessToken", accessToken);
@@ -149,7 +149,7 @@ class Auth {
     };
     final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
     if (RestClient.respSuccess(response)) {
-      Map result = response.data["result.dart"];
+      Map result = response.data["result"];
       String refreshToken = result["refreshToken"];
       String accessToken = result["accessToken"];
       SecureStorageUtil.putString("refreshToken", refreshToken);
@@ -184,7 +184,7 @@ class Auth {
   }
 
   static void saveAuthInfo(Response response, String username, String password) {
-    Map result = response.data["result.dart"];
+    Map result = response.data["result"];
     String accessToken = result["accessToken"];
     String refreshToken = result["refreshToken"];
     String registerTime = result["registerTime"];
