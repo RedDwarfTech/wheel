@@ -4,8 +4,8 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:wheel/src/biz/user/app_user.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/model/user/app_login_request.dart';
-import 'package:wheel/src/net/rest/http_result.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
+import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show CommonUtils, GlobalConfig, RestClient, SecureStorageUtil;
 
@@ -117,7 +117,7 @@ class Auth {
     String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
     String statusCode = response.data["resultCode"];
     if (RestClient.respSuccess(response)) {
-      Map result = response.data["result"];
+      Map result = response.data["result.dart"];
       String accessToken = result["accessToken"];
       SecureStorageUtil.putString("accessToken", accessToken);
       SecureStorageUtil.putString("accessToken", accessToken);
@@ -149,7 +149,7 @@ class Auth {
     };
     final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
     if (RestClient.respSuccess(response)) {
-      Map result = response.data["result"];
+      Map result = response.data["result.dart"];
       String refreshToken = result["refreshToken"];
       String accessToken = result["accessToken"];
       SecureStorageUtil.putString("refreshToken", refreshToken);
@@ -184,7 +184,7 @@ class Auth {
   }
 
   static void saveAuthInfo(Response response, String username, String password) {
-    Map result = response.data["result"];
+    Map result = response.data["result.dart"];
     String accessToken = result["accessToken"];
     String refreshToken = result["refreshToken"];
     String registerTime = result["registerTime"];

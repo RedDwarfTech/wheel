@@ -1,0 +1,4 @@
+enum Result {
+  ok,
+  error,
+}

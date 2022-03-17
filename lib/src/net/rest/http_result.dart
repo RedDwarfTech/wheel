@@ -1,3 +1,5 @@
+import 'package:wheel/src/net/rest/result.dart';
+
 class HttpResult {
   String message;
   Result result;
@@ -8,7 +10,3 @@ class HttpResult {
   });
 }
 
-enum Result {
-  ok,
-  error,
-}

@@ -11,4 +11,5 @@ export 'src/biz/user/app_user.dart';
 export 'src/model/user/app_login_request.dart';
 export 'src/model/common/region_flag.dart';
 export 'src/net/rest/http_result.dart';
+export 'src/net/rest/result.dart';
 export 'src/util/navigation_service.dart';

@@ -7,10 +7,9 @@ import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/global/net_const.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
+import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
-
-import 'http_result.dart';
 
 class AppInterceptors extends InterceptorsWrapper {
   @override
