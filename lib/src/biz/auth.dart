@@ -188,7 +188,7 @@ class Auth {
       "deviceId": deviceInfo[2],
       "deviceName": deviceInfo[0],
       "deviceType": int.parse(deviceInfo[1]),
-      "app": appId
+      "appId": appId
     };
     final response = await RestClient.postAuthDio("/post/user/login", body);
     if (RestClient.respSuccess(response)) {
