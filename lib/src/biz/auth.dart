@@ -104,6 +104,22 @@ class Auth {
     }
   }
 
+  ///
+  /// why do refresh token logic like this? why did not refresh the refresh token?
+  /// why redirect to the login when refresh token invalid or expired?
+  ///
+  /// when refresh access token, the refresh token expire date will also refresh
+  /// so we did not have the refresh token refresh logic
+  /// where the refresh token expired or invalid, the user need to login again
+  /// searching the refresh token refresh from internet and did not found any refresh token implement
+  ///
+  /// so the finally conclusion is:
+  ///  do not refresh the refresh token
+  ///  when refresh token invalid or expired, just redirect to the login page
+  ///
+  /// the login will popup when the user have a very long time did not use the app(according with the refresh token expired time period)
+  ///
+  ///
   static Future<AuthResult> refreshAccessToken({required String refreshToken}) async {
     /**
      * the snake case parameter was according the oauth 2.0 specification
@@ -114,49 +130,15 @@ class Auth {
       "refresh_token": refreshToken,
     };
     final response = await RestClient.postAuthDio("/post/auth/access_token/refresh", body);
-    String refreshExpiredCode = ResponseStatus.REFRESH_TOKEN_EXPIRED.statusCode;
-    String statusCode = response.data["resultCode"];
     if (RestClient.respSuccess(response)) {
       Map result = response.data["result"];
       String accessToken = result["accessToken"];
       SecureStorageUtil.putString("accessToken", accessToken);
       SecureStorageUtil.putString("accessToken", accessToken);
       return AuthResult(message: "ok", result: Result.ok);
-    } else if (refreshExpiredCode == statusCode) {
-      String? username = await SecureStorageUtil.getString("username");
-      String? password = await SecureStorageUtil.getString("password");
-      if (username != null && password != null) {
-        return refreshRefreshToken(refreshToken: refreshToken,phone: username,password: password);
-      } else {
-        return AuthResult(message: "refresh access token failed", result: Result.error);
-      }
-    } else {
-      return AuthResult(message: "refresh access token failed", result: Result.error);
-    }
-  }
-
-  static Future<AuthResult> refreshRefreshToken({
-    required String refreshToken,
-    required String phone,
-    required String password
-  }) async {
-
-    Map body = {
-      "grant_type": "refresh_token",
-      "refresh_token": refreshToken,
-      "phone": phone,
-      "password": password
-    };
-    final response = await RestClient.postAuthDio("/post/auth/refresh_token/refresh", body);
-    if (RestClient.respSuccess(response)) {
-      Map result = response.data["result"];
-      String refreshToken = result["refreshToken"];
-      String accessToken = result["accessToken"];
-      SecureStorageUtil.putString("refreshToken", refreshToken);
-      SecureStorageUtil.putString("accessToken", accessToken);
-      return AuthResult(message: "refresh success", result: Result.ok);
-    } else {
-      return AuthResult(message: "refresh refresh token failed", result: Result.error);
+    }  else {
+      NavigationService.navigateToReplacementUtil("login");
+      return AuthResult(message: "failed", result: Result.error);
     }
   }
 

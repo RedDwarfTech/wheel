@@ -31,27 +31,6 @@ class AppInterceptors extends InterceptorsWrapper {
     return super.onResponse(handleAccessToken, handler);
   }
 
-  Future<Response> handleRefreshTokenExpired(Response response) async {
-    String accessExpiredCode = ResponseStatus.ACCESS_TOKEN_EXPIRED.statusCode;
-    String statusCode = response.data["statusCode"];
-    if (accessExpiredCode == statusCode) {
-      String? phone = await SecureStorageUtil.getString("username");
-      String? password = await SecureStorageUtil.getString("password");
-      String? refreshToken = await SecureStorageUtil.getString("refreshToken");
-      if (phone == null || password == null|| refreshToken == null) {
-        return response;
-      }
-      AuthResult result = await Auth.refreshRefreshToken(refreshToken: refreshToken,phone: phone,password: password);
-      if (result.result == Result.ok) {
-        Dio dio = RestClient.createDio();
-        return _retryResponse(response, dio);
-      } else {
-        AppLogHandler.logErrorException("refresh refresh token failed", result);
-      }
-    }
-    return response;
-  }
-
   Future<Response> handleResponseByCode(Response response) async {
     String statusCode = response.data["resultCode"];
     if (statusCode == ResponseStatus.ACCESS_TOKEN_EXPIRED.statusCode) {
