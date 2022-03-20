@@ -13,6 +13,10 @@ class NavigationService {
     return navigationKey.currentState!.pushReplacementNamed(_rn);
   }
 
+  Future<dynamic> navigateToReplacementWithParam(String _rn,Map<String,Object> args) {
+    return navigationKey.currentState!.pushReplacementNamed(_rn,result: null,arguments: args);
+  }
+
   static Future<void> navigateToReplacementUtil(String _rn) async {
     if (NavigationService.instance.navigationKey.currentState != null) {
       NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil(_rn, ModalRoute.withName("/"));
