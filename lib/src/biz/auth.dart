@@ -142,7 +142,7 @@ class Auth {
     }
   }
 
-  static Future<AuthResult> loginReq({required AppLoginRequest appLoginRequest}) async {
+  static Future<AuthResult> login({required AppLoginRequest appLoginRequest}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
     Map body = {
       "phone": appLoginRequest.username,
@@ -150,6 +150,7 @@ class Auth {
       "goto": 'news',
       "loginType": appLoginRequest.loginType.statusCode,
       "deviceId": deviceInfo[2],
+      "deviceName": deviceInfo[0],
       "deviceType": int.parse(deviceInfo[1]),
       "appId": GlobalConfig.getConfig("appId"),
       "nickname": appLoginRequest.nickname,
@@ -177,26 +178,5 @@ class Auth {
     SecureStorageUtil.putString("registerTime", registerTime);
   }
 
-  static Future<AuthResult> login({required String username, required String password, required LoginType loginType}) async {
-    List<String> deviceInfo = await CommonUtils.getDeviceDetails();
-    int appId = GlobalConfiguration().get("appId");
-    Map body = {
-      "phone": username,
-      "password": password,
-      "goto": 'news',
-      "loginType": loginType.statusCode,
-      "deviceId": deviceInfo[2],
-      "deviceName": deviceInfo[0],
-      "deviceType": int.parse(deviceInfo[1]),
-      "appId": appId
-    };
-    final response = await RestClient.postAuthDio("/post/user/login", body);
-    if (RestClient.respSuccess(response)) {
-      saveAuthInfo(response, username, password);
-      return AuthResult(message: "Login success", result: Result.ok);
-    } else {
-      NavigationService.instance.navigateToReplacement("login");
-      return AuthResult(message: "Login failed", result: Result.error);
-    }
-  }
+
 }
