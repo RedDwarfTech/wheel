@@ -11,7 +11,7 @@ import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
-import 'package:get/get.dart';
+import 'package:get/get.dart' as GetX;
 
 class AppInterceptors extends InterceptorsWrapper {
   @override
@@ -91,7 +91,7 @@ class AppInterceptors extends InterceptorsWrapper {
         if (NavigationService.instance.navigationKey.currentState != null) {
           NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
         }else{
-          Get.toNamed('/login');
+          GetX.Get.toNamed('/login');
         }
         return response;
       }
