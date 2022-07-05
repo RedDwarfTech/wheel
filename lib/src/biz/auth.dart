@@ -166,6 +166,29 @@ class Auth {
     }
   }
 
+  static Future<AuthResult> appLogin({required AppLoginRequest appLoginRequest}) async {
+    List<String> deviceInfo = await CommonUtils.getDeviceDetails();
+    Map body = {
+      "phone": appLoginRequest.username,
+      "password": appLoginRequest.password,
+      "goto": 'news',
+      "loginType": appLoginRequest.loginType.statusCode,
+      "deviceId": deviceInfo[2],
+      "deviceName": deviceInfo[0],
+      "deviceType": int.parse(deviceInfo[1]),
+      "nickname": appLoginRequest.nickname,
+      "avatarUrl": appLoginRequest.avatarUrl
+    };
+    final response = await RestClient.postAuthDio(GlobalConfig.getConfig("loginUrlPath"), body);
+    if (RestClient.respSuccess(response)) {
+      saveAuthInfo(response, appLoginRequest.username, appLoginRequest.password);
+      return AuthResult(message: "Login success", result: Result.ok);
+    } else {
+      NavigationService.instance.navigateToReplacement("login");
+      return AuthResult(message: "Login failed", result: Result.error);
+    }
+  }
+
   static void saveAuthInfo(Response response, String username, String password) {
     Map result = response.data["result"];
     String accessToken = result["accessToken"];

@@ -10,7 +10,7 @@ import 'package:wheel/src/model/user/app_login_request.dart';
 import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
-import 'package:wheel/wheel.dart' show AppLogHandler, RestClient, SecureStorageUtil;
+import 'package:wheel/wheel.dart' show AppLogHandler, GlobalConfig, RestClient, SecureStorageUtil;
 import 'package:get/get.dart' as GetX;
 
 class AppInterceptors extends InterceptorsWrapper {
@@ -116,7 +116,11 @@ class AppInterceptors extends InterceptorsWrapper {
     Dio dio = RestClient.createDio();
     dio.lock();
     try {
-      AppLoginRequest appLoginRequest = new AppLoginRequest(username: userName, password: password, loginType: LoginType.PHONE);
+      AppLoginRequest appLoginRequest = new AppLoginRequest(
+          username: userName,
+          password: password,
+          loginType: LoginType.PHONE,
+      );
       AuthResult result = await Auth.login(appLoginRequest: appLoginRequest);
       if (result.result == Result.ok) {
         // resend a request to fetch data

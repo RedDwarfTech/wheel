@@ -7,7 +7,7 @@ class AppLoginRequest {
     required this.password,
     required this.loginType,
     this.nickname,
-    this.avatarUrl
+    this.avatarUrl,
   });
 
   String username;
@@ -22,7 +22,7 @@ class AppLoginRequest {
       "password": password,
       "loginType": loginType.index,
       "nickname": nickname,
-      "avatarUrl": avatarUrl
+      "avatarUrl": avatarUrl,
     };
   }
 }
