@@ -36,6 +36,12 @@ class RestClient {
     return response;
   }
 
+  static Future<Response> delete(String path, Object data) async {
+    Dio dio = createDio();
+    Response response = await dio.delete(path, data: data);
+    return response;
+  }
+
   static Future<Response> postAuthDio(String path, Object data) async {
     final url = GlobalConfig.getConfig("authUrl") + path;
     Dio dio = new Dio();
