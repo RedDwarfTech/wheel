@@ -32,7 +32,7 @@ class DateTimeUtils {
 
   static DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
-  bool isToday(int unixMilliseconds) {
+  static bool isToday(int unixMilliseconds) {
     if (unixMilliseconds >= startDayOfDay() && unixMilliseconds <= endDayOfDay()) {
       return true;
     } else {
