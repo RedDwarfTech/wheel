@@ -3,6 +3,16 @@ class DateTimeUtils {
     return getDate(date.subtract(Duration(days: date.weekday - 1)));
   }
 
+  static int startDayOfDay() {
+    DateTime startOfDay = new DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0, 000);
+    return startOfDay.millisecondsSinceEpoch;
+  }
+
+  static int endDayOfDay() {
+    DateTime startOfDay = new DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59, 999);
+    return startOfDay.millisecondsSinceEpoch;
+  }
+
   static endDayOfWeek(DateTime date) {
     return getDate(date.add(Duration(days: DateTime.daysPerWeek - date.weekday)));
   }
@@ -21,4 +31,12 @@ class DateTimeUtils {
   }
 
   static DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  bool isToday(int unixMilliseconds) {
+    if (unixMilliseconds >= startDayOfDay() && unixMilliseconds <= endDayOfDay()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
