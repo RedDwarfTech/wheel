@@ -1,6 +1,7 @@
 export 'src/biz/auth.dart';
 export 'src/biz/user/app_user.dart';
 export 'src/biz/user/login_type.dart';
+export 'src/biz/user/user_service.dart';
 export 'src/config/global_config.dart';
 export 'src/log/app_log_handler.dart';
 export 'src/log/rest_log.dart';
