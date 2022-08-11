@@ -4,7 +4,16 @@ import '../../../wheel.dart';
 
 class UserService {
   static Future<AuthResult> regUser({required String phone, required String password, required String verifyCode}) async {
-    Map body = {"phone": phone, "password": password, "verifyCode": verifyCode, "goto": 'news', "app": GlobalConfig.getConfig("appId")};
+    List<String> deviceInfo = await CommonUtils.getDeviceDetails();
+    Map body = {
+      "deviceId": deviceInfo[2],
+      "deviceName": deviceInfo[0],
+      "phone": phone,
+      "password": password,
+      "verifyCode": verifyCode,
+      "goto": 'news',
+      "app": GlobalConfig.getConfig("appId")
+    };
     final response = await RestClient.postHttp("/post/user/reg", body);
     if (RestClient.respSuccess(response)) {
       final storage = new FlutterSecureStorage();
