@@ -4,7 +4,6 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:wheel/src/biz/user/app_user.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
 import 'package:wheel/src/model/user/app_login_request.dart';
-import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show CommonUtils, GlobalConfig, RestClient, SecureStorageUtil;
@@ -70,12 +69,7 @@ class Auth {
   }
 
   static Future<AuthResult> setPwd({required String phone, required String password}) async {
-    Map body = {
-      "phone": phone,
-      "password": password,
-      "goto": 'news',
-      "app": GlobalConfig.getConfig("appId")
-    };
+    Map body = {"phone": phone, "password": password, "goto": 'news', "app": GlobalConfig.getConfig("appId")};
     final response = await RestClient.postHttp("/post/user/set/pwd", body);
     if (RestClient.respSuccess(response)) {
       final storage = new FlutterSecureStorage();
@@ -136,7 +130,7 @@ class Auth {
       SecureStorageUtil.putString("accessToken", accessToken);
       SecureStorageUtil.putString("accessToken", accessToken);
       return AuthResult(message: "ok", result: Result.ok);
-    }  else {
+    } else {
       NavigationService.navigateToReplacementUtil("login");
       return AuthResult(message: "failed", result: Result.error);
     }
@@ -194,12 +188,11 @@ class Auth {
     String accessToken = result["accessToken"];
     String refreshToken = result["refreshToken"];
     String registerTime = result["registerTime"];
+    String userId = result["userId"];
     SecureStorageUtil.putString("username", username);
-    SecureStorageUtil.putString("password", password);
+    SecureStorageUtil.putString("userId", userId);
     SecureStorageUtil.putString("accessToken", accessToken);
     SecureStorageUtil.putString("refreshToken", refreshToken);
     SecureStorageUtil.putString("registerTime", registerTime);
   }
-
-
 }
