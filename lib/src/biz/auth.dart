@@ -189,7 +189,6 @@ class Auth {
     String refreshToken = result["refreshToken"];
     String registerTime = result["registerTime"];
     SecureStorageUtil.putString("username", username);
-    SecureStorageUtil.putString("userId", userId);
     SecureStorageUtil.putString("accessToken", accessToken);
     SecureStorageUtil.putString("refreshToken", refreshToken);
     SecureStorageUtil.putString("registerTime", registerTime);
