@@ -5,9 +5,7 @@ enum ConfigType { DEV, PRO }
 class GlobalConfig {
   static Map config = Map<String, String>();
 
-  GlobalConfig() {
-
-  }
+  GlobalConfig() {}
 
   static getBaseUrl() {
     String configBaseUrl = config["baseUrl"];
@@ -24,6 +22,22 @@ class GlobalConfig {
 
   static getConfig(String key) {
     return config[key];
+  }
+
+  static getUserNameCachedKey() {
+    return config["userName"];
+  }
+
+  static getAccessTokenCachedKey() {
+    return config["accessToken"];
+  }
+
+  static getRefreshTokenCachedKey() {
+    return config["refreshToken"];
+  }
+
+  static getRegisterTimeCachedKey() {
+    return config["registerTime"];
   }
 
   static init(ConfigType configType) {

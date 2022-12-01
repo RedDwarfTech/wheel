@@ -23,7 +23,7 @@ class Auth {
   static RegExp validationRequired = RegExp(r"Validation required");
 
   static Future<bool> isLoggedIn() async {
-    String? username = await SecureStorageUtil.getString("username");
+    String? username = await SecureStorageUtil.getString(GlobalConfig.getUserNameCachedKey() ?? "username");
     if (username == null) {
       return false;
     } else {
@@ -32,8 +32,8 @@ class Auth {
   }
 
   static Future<AppUser> currentUser() async {
-    String? userName = await SecureStorageUtil.getString("username");
-    String? registerTime = await SecureStorageUtil.getString("registerTime");
+    String? userName = await SecureStorageUtil.getString(GlobalConfig.getUserNameCachedKey() ?? "username");
+    String? registerTime = await SecureStorageUtil.getString(GlobalConfig.getRegisterTimeCachedKey() ?? "registerTime");
     AppUser user = new AppUser(phone: userName, registerTime: registerTime);
     return user;
   }
@@ -49,11 +49,10 @@ class Auth {
   }
 
   static Future<void> logout() async {
-    await SecureStorageUtil.delString("username");
-    await SecureStorageUtil.delString("password");
-    await SecureStorageUtil.delString("registerTime");
-    await SecureStorageUtil.delString("accessToken");
-    await SecureStorageUtil.delString("freshToken");
+    await SecureStorageUtil.delString(GlobalConfig.getUserNameCachedKey() ?? "username");
+    await SecureStorageUtil.delString(GlobalConfig.getRegisterTimeCachedKey() ?? "registerTime");
+    await SecureStorageUtil.delString(GlobalConfig.getAccessTokenCachedKey() ?? "accessToken");
+    await SecureStorageUtil.delString(GlobalConfig.getRefreshTokenCachedKey() ?? "freshToken");
   }
 
   static Future<AuthResult> sms({required String phone}) async {
@@ -118,7 +117,7 @@ class Auth {
     /**
      * the snake case parameter was according the oauth 2.0 specification
      * https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/
-      */
+     */
     Map body = {
       "grant_type": "refresh_token",
       "refresh_token": refreshToken,
@@ -127,8 +126,7 @@ class Auth {
     if (RestClient.respSuccess(response)) {
       Map result = response.data["result"];
       String accessToken = result["accessToken"];
-      SecureStorageUtil.putString("accessToken", accessToken);
-      SecureStorageUtil.putString("accessToken", accessToken);
+      SecureStorageUtil.putString(GlobalConfig.getAccessTokenCachedKey() ?? "accessToken", accessToken);
       return AuthResult(message: "ok", result: Result.ok);
     } else {
       NavigationService.navigateToReplacementUtil("login");
@@ -188,9 +186,9 @@ class Auth {
     String accessToken = result["accessToken"];
     String refreshToken = result["refreshToken"];
     String registerTime = result["registerTime"];
-    SecureStorageUtil.putString("username", username);
-    SecureStorageUtil.putString("accessToken", accessToken);
-    SecureStorageUtil.putString("refreshToken", refreshToken);
-    SecureStorageUtil.putString("registerTime", registerTime);
+    SecureStorageUtil.putString(GlobalConfig.getUserNameCachedKey() ?? "username", username);
+    SecureStorageUtil.putString(GlobalConfig.getAccessTokenCachedKey() ?? "accessToken", accessToken);
+    SecureStorageUtil.putString(GlobalConfig.getRefreshTokenCachedKey() ?? "refreshToken", refreshToken);
+    SecureStorageUtil.putString(GlobalConfig.getRegisterTimeCachedKey() ?? "registerTime", registerTime);
   }
 }
