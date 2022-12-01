@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart' as GetX;
 import 'package:uuid/uuid.dart';
 import 'package:wheel/src/biz/auth.dart';
 import 'package:wheel/src/biz/user/login_type.dart';
@@ -11,13 +12,12 @@ import 'package:wheel/src/net/rest/response_status.dart';
 import 'package:wheel/src/net/rest/result.dart';
 import 'package:wheel/src/util/navigation_service.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, GlobalConfig, RestClient, SecureStorageUtil;
-import 'package:get/get.dart' as GetX;
 
 class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.headers.containsKey(HTTP_ACCESS_TOKEN_HEADER)) {
-      String? accessToken = await SecureStorageUtil.getString("accessToken");
+      String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey() ?? "accessToken");
       options.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken ?? "";
     }
     if (!options.headers.containsKey(HTTP_REQUEST_ID_HEADER)) {
@@ -90,7 +90,7 @@ class AppInterceptors extends InterceptorsWrapper {
          */
         if (NavigationService.instance.navigationKey.currentState != null) {
           NavigationService.instance.navigationKey.currentState!.pushNamedAndRemoveUntil("login", ModalRoute.withName("/"));
-        }else{
+        } else {
           GetX.Get.toNamed('/login');
         }
         return response;
@@ -117,9 +117,9 @@ class AppInterceptors extends InterceptorsWrapper {
     dio.lock();
     try {
       AppLoginRequest appLoginRequest = new AppLoginRequest(
-          username: userName,
-          password: password,
-          loginType: LoginType.PHONE,
+        username: userName,
+        password: password,
+        loginType: LoginType.PHONE,
       );
       AuthResult result = await Auth.login(appLoginRequest: appLoginRequest);
       if (result.result == Result.ok) {
