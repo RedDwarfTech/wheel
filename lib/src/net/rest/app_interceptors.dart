@@ -17,7 +17,7 @@ class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.headers.containsKey(HTTP_ACCESS_TOKEN_HEADER)) {
-      String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey() ?? "accessToken");
+      String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey());
       options.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken ?? "";
     }
     if (!options.headers.containsKey(HTTP_REQUEST_ID_HEADER)) {
