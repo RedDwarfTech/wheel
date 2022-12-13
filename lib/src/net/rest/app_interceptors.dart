@@ -47,7 +47,7 @@ class AppInterceptors extends InterceptorsWrapper {
   }
 
   Future<Response> handleAccessTokenExpired(Response response) async {
-    String? refreshToken = await SecureStorageUtil.getString("refreshToken");
+    String? refreshToken = await SecureStorageUtil.getString(GlobalConfig.getRefreshTokenCachedKey());
     if (refreshToken == null) {
       return response;
     }
@@ -66,7 +66,7 @@ class AppInterceptors extends InterceptorsWrapper {
     String notLoginCode = ResponseStatus.NOT_LOGIN.statusCode;
     String statusCode = response.data["statusCode"];
     if (statusCode == loginInvalidCode || statusCode == notLoginCode) {
-      String? userName = await SecureStorageUtil.getString("username");
+      String? userName = await SecureStorageUtil.getString(GlobalConfig.getUserNameCachedKey());
       String? password = await SecureStorageUtil.getString("password");
       /**
        * the refresh time record the refresh request count
@@ -102,7 +102,7 @@ class AppInterceptors extends InterceptorsWrapper {
 
   Future<Response> _retryResponse(Response response, Dio dio) async {
     // replace the new token
-    String? accessToken = await SecureStorageUtil.getString("accessToken");
+    String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey());
     response.requestOptions.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken;
     final options = new Options(
       method: response.requestOptions.method,
