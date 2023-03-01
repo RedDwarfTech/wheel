@@ -16,3 +16,4 @@ export 'src/util/datetime_utils.dart';
 export 'src/util/navigation_service.dart';
 export 'src/util/storage/secure_storage_util.dart';
 export 'src/util/toast/toast_utils.dart';
+export 'src/util/theme.dart';
