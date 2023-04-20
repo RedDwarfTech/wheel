@@ -23,6 +23,9 @@ class Auth {
   static RegExp validationRequired = RegExp(r"Validation required");
 
   static Future<bool> isLoggedIn() async {
+    if (GlobalConfig.getUserNameCachedKey() == null) {
+      return false;
+    }
     String? username = await SecureStorageUtil.getString(GlobalConfig.getUserNameCachedKey());
     if (username == null) {
       return false;
