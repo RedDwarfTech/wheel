@@ -1,7 +1,7 @@
 import '../../../wheel.dart';
 
 class UserService {
-  static Future<AuthResult> regUser({required String phone, required String password, required String verifyCode}) async {
+  static Future<AuthResult> regUser({required String phone, required String password, required String verifyCode, required String appRegUrl}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
     Map body = {
       "deviceId": deviceInfo[2],
@@ -12,7 +12,7 @@ class UserService {
       "goto": 'news',
       "app": GlobalConfig.getConfig("appId")
     };
-    final response = await RestClient.postHttp("/post/user/reg", body);
+    final response = await RestClient.postHttp(appRegUrl, body);
     if (RestClient.respSuccess(response)) {
       Auth.saveAuthInfo(response, phone);
       return AuthResult(message: "register success", result: Result.ok);
