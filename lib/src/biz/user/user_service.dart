@@ -1,7 +1,9 @@
+import 'package:dio/src/response.dart';
+
 import '../../../wheel.dart';
 
 class UserService {
-  static Future<AuthResult> regUser({required String phone, required String password, required String verifyCode, required String appRegUrl}) async {
+  static Future<Response> regUser({required String phone, required String password, required String verifyCode, required String appRegUrl}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
     Map body = {
       "deviceId": deviceInfo[2],
@@ -15,9 +17,7 @@ class UserService {
     final response = await RestClient.postHttp(appRegUrl, body);
     if (RestClient.respSuccess(response)) {
       Auth.saveAuthInfo(response, phone);
-      return AuthResult(message: "register success", result: Result.ok);
-    } else {
-      return AuthResult(message: "user register failed", result: Result.error);
     }
+    return response;
   }
 }
