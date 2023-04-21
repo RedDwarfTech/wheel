@@ -28,6 +28,9 @@ class GlobalConfig {
     return config["userName"];
   }
 
+  // why use the get function?
+  // when we want to change the key
+  // just change this one place
   static getAccessTokenCachedKey() {
     return config["accessToken"];
   }
