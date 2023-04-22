@@ -155,13 +155,11 @@ class Auth {
     final response = await RestClient.postAuthDio(appLoginRequest.loginUrl, body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response, appLoginRequest.username);
-    } else {
-      NavigationService.instance.navigateToReplacement("login");
     }
     return response;
   }
 
-  static Future<AuthResult> appLogin({required AppLoginRequest appLoginRequest}) async {
+  static Future<Response> appLogin({required AppLoginRequest appLoginRequest}) async {
     List<String> deviceInfo = await CommonUtils.getDeviceDetails();
     Map body = {
       "phone": appLoginRequest.username,
@@ -177,11 +175,8 @@ class Auth {
     final response = await RestClient.postAuthDio(GlobalConfig.getConfig("loginUrlPath"), body);
     if (RestClient.respSuccess(response)) {
       saveAuthInfo(response, appLoginRequest.username);
-      return AuthResult(message: "Login success", result: Result.ok);
-    } else {
-      NavigationService.instance.navigateToReplacement("login");
-      return AuthResult(message: "Login failed", result: Result.error);
     }
+    return response;
   }
 
   static void saveAuthInfo(Response response, String username) {
