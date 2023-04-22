@@ -122,9 +122,10 @@ class AppInterceptors extends InterceptorsWrapper {
         username: userName,
         password: password,
         loginType: LoginType.PHONE,
+        loginUrl: GlobalConfig.getConfig("loginUrl")
       );
-      AuthResult result = await Auth.login(appLoginRequest: appLoginRequest);
-      if (result.result == Result.ok) {
+      var result = await Auth.login(appLoginRequest: appLoginRequest);
+      if (RestClient.respSuccess(result)) {
         // resend a request to fetch data
         return _retryResponse(response, dio);
       } else {
