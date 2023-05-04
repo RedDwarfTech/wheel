@@ -31,7 +31,7 @@ class AppInterceptors extends InterceptorsWrapper {
   @override
   Future onResponse(Response response, ResponseInterceptorHandler handler) async {
     var headerText = response.headers['content-type'];
-    if (headerText != null && headerText.length > 0 && headerText.first == 'text/event-stream') {
+    if (headerText != null && headerText.length > 0 && headerText.first.contains('text/event-stream')) {
     } else {
       Response handleResponse = await autoLogin(response);
       Response handleAccessToken = await handleResponseByCode(handleResponse);
