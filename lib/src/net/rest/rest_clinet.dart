@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:global_configuration/global_configuration.dart';
 
@@ -92,5 +94,22 @@ class RestClient {
 
   static bool respSuccess(Response response) {
     return response.statusCode == 200 && response.data["statusCode"] == "200" && response.data["resultCode"] == "200";
+  }
+
+  static Future<void> requestSSE(String path,{required Function(Object) onMessage}) async {
+    final dio = createDio();
+    final url = GlobalConfiguration().get("baseUrl") + path;
+    final response = await dio.get(
+      url,
+      options: Options(
+        headers: {'Accept': 'text/event-stream'},
+        responseType: ResponseType.stream,
+      ),
+    );
+    final stream = response.data as Stream<List<int>>;
+    stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .listen((event) => onMessage(event));
   }
 }
