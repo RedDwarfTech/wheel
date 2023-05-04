@@ -16,7 +16,7 @@ import 'package:wheel/wheel.dart' show AppLogHandler, GlobalConfig, RestClient, 
 class AppInterceptors extends InterceptorsWrapper {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if(GlobalConfig.getAccessTokenCachedKey() != null) {
+    if (GlobalConfig.getAccessTokenCachedKey() != null) {
       if (!options.headers.containsKey(HTTP_ACCESS_TOKEN_HEADER)) {
         String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey());
         options.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken ?? "";
@@ -30,9 +30,13 @@ class AppInterceptors extends InterceptorsWrapper {
 
   @override
   Future onResponse(Response response, ResponseInterceptorHandler handler) async {
-    Response handleResponse = await autoLogin(response);
-    Response handleAccessToken = await handleResponseByCode(handleResponse);
-    return super.onResponse(handleAccessToken, handler);
+    var headerText = response.headers['content-type'];
+    if (headerText != null && headerText.length > 0 && headerText.first == 'text/event-stream') {
+    } else {
+      Response handleResponse = await autoLogin(response);
+      Response handleAccessToken = await handleResponseByCode(handleResponse);
+      return super.onResponse(handleAccessToken, handler);
+    }
   }
 
   Future<Response> handleResponseByCode(Response response) async {
@@ -119,11 +123,7 @@ class AppInterceptors extends InterceptorsWrapper {
     dio.lock();
     try {
       AppLoginRequest appLoginRequest = new AppLoginRequest(
-        username: userName,
-        password: password,
-        loginType: LoginType.PHONE,
-        loginUrl: GlobalConfig.getConfig("loginUrl")
-      );
+          username: userName, password: password, loginType: LoginType.PHONE, loginUrl: GlobalConfig.getConfig("loginUrl"));
       var result = await Auth.login(appLoginRequest: appLoginRequest);
       if (RestClient.respSuccess(result)) {
         // resend a request to fetch data
