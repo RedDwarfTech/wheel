@@ -146,6 +146,9 @@ class AppInterceptors extends InterceptorsWrapper {
 
   @override
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
+    if(err.response?.statusCode == 401){
+      GetX.Get.toNamed('/login');
+    }
     AppLogHandler.logDioError(err, handler);
     return super.onError(err, handler);
   }
