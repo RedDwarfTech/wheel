@@ -37,7 +37,7 @@ class Auth {
   static Future<AppUser> currentUser() async {
     String? userName = await SecureStorageUtil.getString(GlobalConfig.getUserNameCachedKey());
     String? registerTime = await SecureStorageUtil.getString(GlobalConfig.getRegisterTimeCachedKey());
-    String? nickName = await SecureStorageUtil.getString(GlobalConfig.getConfig("nickname"));
+    String? nickName = await SecureStorageUtil.getString(GlobalConfig.getConfig("nickname")??"nickname");
     AppUser user = new AppUser(phone: userName??"unknown", registerTime: registerTime??"0", nickName: nickName??"unknown");
     return user;
   }

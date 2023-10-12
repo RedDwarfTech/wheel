@@ -19,7 +19,9 @@ class AppInterceptors extends InterceptorsWrapper {
     if (GlobalConfig.getAccessTokenCachedKey() != null) {
       if (!options.headers.containsKey(HTTP_ACCESS_TOKEN_HEADER)) {
         String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey());
-        options.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken ?? "";
+        if(accessToken != null) {
+          options.headers[HTTP_ACCESS_TOKEN_HEADER] = "Bearer " + accessToken;
+        }
       }
     }
     if (!options.headers.containsKey(HTTP_REQUEST_ID_HEADER)) {
@@ -110,7 +112,9 @@ class AppInterceptors extends InterceptorsWrapper {
   Future<Response> _retryResponse(Response response, Dio dio) async {
     // replace the new token
     String? accessToken = await SecureStorageUtil.getString(GlobalConfig.getAccessTokenCachedKey());
-    response.requestOptions.headers[HTTP_ACCESS_TOKEN_HEADER] = accessToken;
+    if(accessToken != null) {
+      response.requestOptions.headers[HTTP_ACCESS_TOKEN_HEADER] = "Bearer " + accessToken;
+    }
     final options = new Options(
       method: response.requestOptions.method,
       headers: response.requestOptions.headers,
